@@ -1,5 +1,5 @@
 "use client";
-import { PricingCard } from "@d-via/design-system";
+import { PricingCard } from "@gloireondongo/d-via-design-system";
 
 const tiers = [
   {

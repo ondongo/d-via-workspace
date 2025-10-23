@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Accordion, Button } from "@d-via/design-system";
+import { Typography, Accordion, Button } from "@gloireondongo/d-via-design-system";
 
 type FaqItem = {
   question: string;

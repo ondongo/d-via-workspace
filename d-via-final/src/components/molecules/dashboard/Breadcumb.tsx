@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import React from "react";
-import { Breadcrumb } from "@d-via/design-system";
+import { Breadcrumb } from "@gloireondongo/d-via-design-system";
 
 interface BreadcumbProps {
   title?: string;

@@ -1,7 +1,7 @@
 "use client";
 import Breadcumb from "@/components/molecules/dashboard/Breadcumb";
 import NavigationRailDvia from "@/components/molecules/dashboard/NavigationRail";
-import { BottomNavigation } from "@d-via/design-system";
+import { BottomNavigation } from "@gloireondongo/d-via-design-system";
 
 export default function DashboardLayout({
   children,

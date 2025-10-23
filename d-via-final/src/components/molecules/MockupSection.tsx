@@ -1,5 +1,5 @@
 import React from 'react'
-import { Typography } from '@d-via/design-system'
+import { Typography } from '@gloireondongo/d-via-design-system'
 
 function MockupSection() {
   return (

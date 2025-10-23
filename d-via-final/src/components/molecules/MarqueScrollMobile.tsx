@@ -1,5 +1,5 @@
 import React from 'react'
-import { FileMarquee } from '@d-via/design-system'
+import { FileMarquee } from '@gloireondongo/d-via-design-system'
 
 const mobileFiles = [
   "Devis plomberie.pdf",

@@ -1,5 +1,5 @@
 "use client";
-import { FileMarquee } from "@d-via/design-system";
+import { FileMarquee } from "@gloireondongo/d-via-design-system";
 
 const files = [
   "Devis plomberie salle bain.pdf",

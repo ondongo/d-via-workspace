@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@d-via/design-system";
+import { Button } from "@gloireondongo/d-via-design-system";
 
 function examplebutton() {
   return (

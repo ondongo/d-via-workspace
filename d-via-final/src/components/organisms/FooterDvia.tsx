@@ -1,5 +1,5 @@
 import React from "react";
-import { Footer } from "@d-via/design-system";
+import { Footer } from "@gloireondongo/d-via-design-system";
 
 function FooterModern() {
   const socialLinks = [

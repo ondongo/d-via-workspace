@@ -1,5 +1,5 @@
 "use client";
-import { CardGridScroll } from "@d-via/design-system";
+import { CardGridScroll } from "@gloireondongo/d-via-design-system";
 import { LeftSection } from "@/components/molecules/landing-artisan/LeftSection";
 import { StepsSection } from "@/components/molecules/StepsSection";
 import MapComponent from "@/components/molecules/landing-artisan/Maps";

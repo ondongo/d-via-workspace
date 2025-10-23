@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
+  "buildCommand": "cd ../design-system-dvia && npm run build && cd ../d-via-final && npm run build",
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "env": {

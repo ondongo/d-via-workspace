@@ -1,7 +1,7 @@
 "use client";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
-import { Header } from "@d-via/design-system";
+import { Header } from "@gloireondongo/d-via-design-system";
 
 function HeaderModern() {
   const router = useRouter();

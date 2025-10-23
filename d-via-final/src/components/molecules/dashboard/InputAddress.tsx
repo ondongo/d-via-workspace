@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { AddressInput } from "@d-via/design-system";
+import { AddressInput } from "@gloireondongo/d-via-design-system";
 
 type NominatimResult = {
   display_name: string;

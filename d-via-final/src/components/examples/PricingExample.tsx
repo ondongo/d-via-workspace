@@ -1,5 +1,5 @@
 import React from "react";
-import { PricingCard } from "@d-via/design-system";
+import { PricingCard } from "@gloireondongo/d-via-design-system";
 
 export function PricingExample() {
   const pricingPlans = [

@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Image } from "@d-via/design-system";
+import { Typography, Image } from "@gloireondongo/d-via-design-system";
 
 type Step = {
   icon: string;

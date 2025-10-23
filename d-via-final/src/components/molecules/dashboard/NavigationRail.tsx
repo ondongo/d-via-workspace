@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { NavigationRail } from "@d-via/design-system";
+import { NavigationRail } from "@gloireondongo/d-via-design-system";
 
 function NavigationRailDvia() {
   const pathname = usePathname();

@@ -1,5 +1,5 @@
 "use client";
-import { Modal } from "@d-via/design-system";
+import { Modal } from "@gloireondongo/d-via-design-system";
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useRef } from "react";

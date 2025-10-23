@@ -4,7 +4,7 @@ import Header from "@/components/organisms/HeaderDvia";
 import Footer from "@/components/organisms/FooterDvia";
 import { ToastContainer, Zoom } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BottomActionButton } from "@d-via/design-system";
+import { BottomActionButton } from "@gloireondongo/d-via-design-system";
 
 export default function LandingLayout({
   children,
