@@ -1,9 +1,9 @@
 
-import React from "react";
 import "./globals.css";
 import { ClientProviders } from "@/providers/ClientProviders";
 import Script from "next/script";
-export const metadata = {
+import type { Metadata } from "next";
+export const metadata: Metadata = {
   title: "Analyser votre devis | Dvia",
   description:
     "Évitez les arnaques et analysez votre devis avec précision grâce à notre outil sécurisé.",
@@ -42,9 +42,9 @@ export const metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body>
