@@ -1,13 +1,17 @@
 "use client";
 
+import React from "react";
 import { GlobalStateProvider } from "./globalState";
 import { LocationProvider } from "./LocationProvider";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+interface ProvidersProps {
+  children: React.ReactNode;
+}
+
+export const Providers: React.FC<ProvidersProps> = ({ children }) => {
   return (
     <LocationProvider>
-      {" "}
-      <GlobalStateProvider defaultCity="Paris">{children} </GlobalStateProvider>
+      <GlobalStateProvider defaultCity="Paris">{children}</GlobalStateProvider>
     </LocationProvider>
   );
-}
+};
