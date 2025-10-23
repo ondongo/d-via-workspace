@@ -4,7 +4,6 @@ on:
   push:
     branches: [ main, develop ]
     paths:
-      - 'design-system-dvia/**'
       - 'd-via-final/**'
       - '.github/workflows/**'
   pull_request:
