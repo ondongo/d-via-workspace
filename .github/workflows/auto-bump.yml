@@ -1,0 +1,135 @@
+name: Bump Automatique Design System
+
+# Déclenchement du workflow
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'design-system-dvia/src/**'  # Modifications du code source
+      - 'design-system-dvia/package.json'  # Modifications du package.json
+      - 'design-system-dvia/tsup.config.ts'  # Modifications de la config
+  workflow_dispatch:  # Déclenchement manuel
+    inputs:
+      bump_type:
+        description: 'Type de bump (patch, minor, major)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+# Variables d'environnement
+env:
+  NODE_VERSION: '20'
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  # Token GitHub pour les commits automatiques
+  GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+jobs:
+  # Job de bump automatique
+  bump-version:
+    name: Bump Version et Publication
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Récupération du code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ env.GITHUB_TOKEN }}
+        fetch-depth: 0  # Nécessaire pour les tags Git
+      
+    - name: Configuration Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org/'
+        
+    - name: Configuration Git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+      
+    - name: Installation dépendances
+      run: |
+        cd design-system-dvia
+        npm install
+      
+    - name: Bump de version automatique
+      run: |
+        cd design-system-dvia
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          npm run bump:${{ github.event.inputs.bump_type }}
+        else
+          npm run bump:patch
+        fi
+      env:
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+      
+    - name: Construction du package
+      run: |
+        cd design-system-dvia
+        npm run build
+      
+    - name: Publication sur npm
+      run: |
+        cd design-system-dvia
+        npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+      
+    - name: Construction Storybook
+      run: |
+        cd design-system-dvia
+        npm run build-storybook
+      
+    - name: Déploiement Storybook sur GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ env.GITHUB_TOKEN }}
+        publish_dir: ./design-system-dvia/storybook-static
+        cname: design-system.d-via.com
+      
+    - name: Déploiement Design System sur Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_DESIGN_SYSTEM_PROJECT_ID }}
+        working-directory: design-system-dvia
+        vercel-args: '--prod'
+      
+    - name: Mise à jour d-via-final
+      run: |
+        cd d-via-final
+        npm install
+        npm update @gloireondongo/d-via-design-system
+        git add package.json package-lock.json
+        git commit -m "chore: Mise à jour design system vers $(cd ../design-system-dvia && node -p "require('./package.json').version")" || true
+        git push origin main || true
+      env:
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+
+  # Job de notification
+  notify:
+    name: Notification Bump
+    runs-on: ubuntu-latest
+    needs: bump-version
+    if: always()
+    
+    steps:
+    - name: Notification Succès
+      if: needs.bump-version.result == 'success'
+      run: |
+        echo "✅ Bump et publication réussis !"
+        echo "Design System mis à jour et publié sur npm"
+        echo "Storybook déployé sur GitHub Pages et Vercel"
+        echo "D-Via Final mis à jour automatiquement"
+      
+    - name: Notification Échec
+      if: needs.bump-version.result == 'failure'
+      run: |
+        echo "❌ Échec du bump automatique !"
+        echo "Vérifiez les logs pour plus de détails"
