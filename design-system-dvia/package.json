@@ -17,6 +17,7 @@
     "build": "tsup",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "preview-storybook": "storybook preview",
     "test": "vitest",
     "lint": "eslint src --ext .ts,.tsx",
     "type-check": "tsc --noEmit",
