@@ -1,129 +1,179 @@
 # D-Via Workspace
 
-Monorepo contenant tous les projets de la plateforme D-Via.
+Monorepo contenant l'écosystème complet D-Via : Design System, Application Frontend et Backend IA.
 
 ## Structure du projet
 
 ```
 d-via-workspace/
-├── d-via-final/              # Application Next.js principale
-├── design-system-dvia/       # Design System réutilisable
-├── dvia-backend-ia/          # Backend IA avec système RAG
-└── README.md                 # Ce fichier
+├── design-system-dvia/     # Design System React + Tailwind CSS
+├── d-via-final/           # Application Next.js principale
+├── dvia-backend-ia/       # Backend IA avec RAG
+└── .github/workflows/     # CI/CD GitHub Actions
 ```
 
-## Projets
+## Projets inclus
 
-### 1. **d-via-final** - Application principale
-- **Technologie** : Next.js 14, TypeScript, Tailwind CSS
-- **Description** : Application web complète pour la plateforme D-Via
-- **Fonctionnalités** : Landing page, dashboard, gestion des artisans et clients
-- **Déploiement** : Vercel avec GitHub Actions
+### Design System D-Via
+- **Localisation** : `design-system-dvia/`
+- **Technologies** : React, TypeScript, Tailwind CSS, Storybook
+- **Package npm** : `@gloireondongo/d-via-design-system`
+- **Documentation** : [Storybook en ligne](https://d-via-workspace-design-system-dvia.vercel.app)
 
-### 2. **design-system-dvia** - Design System
-- **Technologie** : React, TypeScript, Storybook, Tailwind CSS
-- **Description** : Bibliothèque de composants réutilisables
-- **Fonctionnalités** : Composants UI, thème D-Via, documentation Storybook
-- **Publication** : GitHub Packages
+### Application D-Via Final
+- **Localisation** : `d-via-final/`
+- **Technologies** : Next.js 15, React, TypeScript, Prisma
+- **Déploiement** : [Vercel](https://d-via-workspace-d-via.vercel.app)
 
-### 3. **dvia-backend-ia** - Backend IA
-- **Technologie** : Python, RAG (Retrieval Augmented Generation)
-- **Description** : API d'analyse de documents et d'intelligence artificielle
-- **Fonctionnalités** : Analyse de devis, génération de contenu IA
+### Backend IA
+- **Localisation** : `dvia-backend-ia/`
+- **Technologies** : Python, RAG (Retrieval Augmented Generation)
 
-## Installation et développement
+## Installation
 
 ### Prérequis
-- Node.js 18+
-- Python 3.8+
-- npm ou yarn
+- Node.js >= 20.0.0
+- npm >= 8.0.0
+- Python 3.8+ (pour le backend IA)
 
-### Installation globale
+### Installation complète
 ```bash
 # Cloner le repository
 git clone https://github.com/ondongo/d-via-workspace.git
 cd d-via-workspace
 
-# Installer les dépendances de tous les projets
-npm install
+# Installation de tous les projets
+npm run install:all
 ```
-
-### Développement par projet
-
-#### Application principale (d-via-final)
-```bash
-cd d-via-final
-npm install
-npm run dev
-```
-
-#### Design System
-```bash
-cd design-system-dvia
-npm install
-npm run storybook
-npm run build
-```
-
-#### Backend IA
-```bash
-cd dvia-backend-ia
-pip install -r requirements.txt
-python rag.py
-```
-
-## Workflow de développement
-
-1. **Design System** : Développement et test des composants
-2. **Publication** : Bump de version et publication sur GitHub Packages
-3. **Application** : Mise à jour automatique via GitHub Actions
-4. **Déploiement** : Déploiement automatique sur Vercel
 
 ## Scripts disponibles
 
-### Workspace
+### Installation
 ```bash
-npm run dev          # Démarrer tous les projets en mode développement
-npm run build        # Builder tous les projets
-npm run test         # Lancer tous les tests
+npm run install:all              # Installation complète
+npm run install:design-system    # Design system uniquement
+npm run install:frontend         # Frontend uniquement
+npm run install:backend          # Backend uniquement
+```
+
+### Développement
+```bash
+npm run dev:design-system        # Dev design system (Storybook)
+npm run dev:frontend             # Dev frontend (Next.js)
+npm run dev:backend              # Dev backend (Python)
+```
+
+### Build
+```bash
+npm run build:all                # Build complet
+npm run build:design-system      # Build design system
+npm run build:frontend           # Build frontend
+```
+
+### Tests et qualité
+```bash
+npm run test                     # Tests complets
+npm run lint                     # Linting complet
+npm run type-check               # Vérification TypeScript
 ```
 
 ### Design System
 ```bash
-npm run storybook    # Démarrer Storybook
-npm run build        # Builder le design system
-npm run bump         # Bump de version automatique
+npm run bump:design-system:patch # Bump version patch
+npm run bump:design-system:minor # Bump version minor
+npm run bump:design-system:major # Bump version major
+npm run publish:design-system    # Publication npm
 ```
 
-### Application
-```bash
-npm run dev          # Démarrer en mode développement
-npm run build        # Builder pour la production
-npm run start        # Démarrer en mode production
-```
+## CI/CD
 
-## Déploiement
+### Workflows GitHub Actions
 
-- **Application** : Déploiement automatique sur Vercel via GitHub Actions
-- **Design System** : Publication automatique sur GitHub Packages
-- **Backend IA** : Déploiement sur votre infrastructure préférée
+1. **main.yml** : Pipeline principal
+   - Validation et tests
+   - Publication automatique du design system sur npm
+   - Build et déploiement sur Vercel
+   - Mise à jour automatique de d-via-final
 
-## Documentation
+2. **bump-design-system.yml** : Gestion des versions
+   - Bump manuel des versions
+   - Mise à jour automatique de d-via-final
 
-- [Guide de déploiement](./DEPLOYMENT.md)
-- [Design System Storybook](https://ondongo.github.io/design-system-dvia)
-- [API Documentation](./dvia-backend-ia/README.md)
+3. **test.yml** : Tests de build
+   - Validation des builds sans déploiement
+
+### Secrets requis
+
+- `NPM_TOKEN` : Token npm pour la publication
+- `VERCEL_TOKEN` : Token Vercel pour le déploiement
+- `VERCEL_ORG_ID` : ID de l'organisation Vercel
+- `VERCEL_DESIGN_SYSTEM_PROJECT_ID` : ID projet design system
+- `VERCEL_D_VIA_FINAL_PROJECT_ID` : ID projet d-via-final
+
+## URLs de déploiement
+
+- **Design System (Storybook)** : https://d-via-workspace-design-system-dvia.vercel.app
+- **Application D-Via** : https://d-via-workspace-d-via.vercel.app
+- **Package npm** : https://www.npmjs.com/package/@gloireondongo/d-via-design-system
+
+## Workflow de développement
+
+1. **Modifier le design system**
+   - Faire les changements dans `design-system-dvia/`
+   - Tester avec Storybook : `npm run dev:design-system`
+
+2. **Publier les changements**
+   - Push sur main → Publication automatique sur npm
+   - Ou bump manuel : `npm run bump:design-system:patch`
+
+3. **Mise à jour automatique**
+   - d-via-final se met à jour automatiquement
+   - Déploiement automatique sur Vercel
+
+4. **Développement frontend**
+   - Modifier `d-via-final/`
+   - Tester localement : `npm run dev:frontend`
+
+## Technologies utilisées
+
+### Design System
+- React 18
+- TypeScript
+- Tailwind CSS
+- Storybook
+- Radix UI
+- Framer Motion
+
+### Frontend
+- Next.js 15
+- React 18
+- TypeScript
+- Prisma
+- NextAuth.js
+- Tailwind CSS
+
+### Backend IA
+- Python 3.8+
+- RAG (Retrieval Augmented Generation)
+- Google Cloud Document AI
+
+### CI/CD
+- GitHub Actions
+- Vercel
+- npm
 
 ## Contribution
 
 1. Fork le repository
-2. Créer une branche feature (`git checkout -b feature/amazing-feature`)
-3. Commit les changements (`git commit -m 'Add amazing feature'`)
-4. Push vers la branche (`git push origin feature/amazing-feature`)
-5. Ouvrir une Pull Request
+2. Créer une branche feature
+3. Faire les modifications
+4. Tester localement
+5. Créer une Pull Request
 
+## Licence
 
-##  Équipe
+MIT
 
-- **Développement** :Marvin, Gloire Ondongo
-- **Design** :Eva, Matys
+## Auteur
+
+Gloire Ondongo

@@ -1,7 +1,6 @@
 "use client";
-import { useLocationContext } from "@/providers/LocationProvider";
 import { useState } from "react";
-import { Modal } from "../../atoms/ui/modals/CustomModal";
+import { Modal } from "@gloireondongo/d-via-design-system";
 import OverviewStep from "./OverviewStep";
 import AddressStep from "./AddressStep";
 import { useGlobalState } from "@/providers/globalState";

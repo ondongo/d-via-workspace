@@ -1,36 +1,130 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# D-Via Final
 
-## Getting Started
+Application Next.js principale de l'écosystème D-Via.
 
-First, run the development server:
+## Déploiement
 
+- **URL** : https://d-via-workspace-d-via.vercel.app
+- **Plateforme** : Vercel
+- **Déploiement** : Automatique via GitHub Actions
+
+## Technologies
+
+- Next.js 15
+- React 18
+- TypeScript
+- Tailwind CSS
+- Prisma
+- NextAuth.js
+- Design System D-Via
+
+## Fonctionnalités
+
+### Pages publiques
+- Landing page
+- Page artisans
+- Page pricing
+- Page coming soon
+
+### Dashboard
+- Interface clients
+- Recherche d'artisans
+- Gestion des devis
+
+### Intégrations
+- Design System D-Via
+- Google Cloud Document AI
+- Stripe (paiements)
+- NextAuth.js (authentification)
+
+## Développement
+
+### Installation
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Variables d'environnement
+```bash
+# .env.local
+DATABASE_URL="your_database_url"
+NEXTAUTH_SECRET="your_secret"
+NEXTAUTH_URL="http://localhost:3000"
+GOOGLE_CLIENT_ID="your_google_client_id"
+GOOGLE_CLIENT_SECRET="your_google_client_secret"
+STRIPE_SECRET_KEY="your_stripe_secret"
+STRIPE_PUBLISHABLE_KEY="your_stripe_public"
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Développement
+```bash
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Build
+```bash
+npm run build
+```
 
-## Learn More
+### Production
+```bash
+npm run start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/                    # App Router Next.js
+│   ├── (landing)/         # Pages publiques
+│   ├── dashboard/         # Dashboard clients
+│   └── api/              # API routes
+├── components/            # Composants React
+│   ├── atoms/            # Composants de base
+│   ├── molecules/        # Composants composés
+│   └── organisms/        # Composants complexes
+├── providers/            # Context providers
+├── hooks/                # Hooks personnalisés
+└── utils/                # Utilitaires
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Design System
 
-## Deploy on Vercel
+L'application utilise le design system D-Via :
+- Package : `@gloireondongo/d-via-design-system`
+- Documentation : https://d-via-workspace-design-system-dvia.vercel.app
+- Mise à jour : Automatique via CI/CD
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Base de données
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **ORM** : Prisma
+- **Base** : SQLite (dev) / PostgreSQL (prod)
+- **Migrations** : `npx prisma migrate dev`
+
+## Authentification
+
+- **Provider** : NextAuth.js
+- **Méthodes** : Google OAuth
+- **Sessions** : JWT
+
+## API
+
+### Routes disponibles
+- `/api/documentai` : Traitement de documents
+- `/api/openapi` : Documentation API
+
+## Déploiement
+
+### Vercel
+- Déploiement automatique sur push main
+- Variables d'environnement configurées
+- Build optimisé pour la production
+
+### CI/CD
+- Tests automatiques
+- Build et déploiement
+- Mise à jour du design system
+
+## Licence
+
+MIT
