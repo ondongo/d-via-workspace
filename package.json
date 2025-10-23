@@ -1,0 +1,31 @@
+{
+  "name": "d-via-workspace",
+  "version": "1.0.0",
+  "description": "Workspace D-Via avec design system, frontend et backend IA",
+  "private": true,
+  "workspaces": [
+    "d-via",
+    "design-system-dvia",
+    "dvia-backend-ia"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=d-via",
+    "dev:design-system": "npm run storybook --workspace=design-system-dvia",
+    "dev:backend": "npm run dev --workspace=dvia-backend-ia",
+    "build": "npm run build --workspace=design-system-dvia && npm run build --workspace=d-via",
+    "build:design-system": "npm run build --workspace=design-system-dvia",
+    "build:frontend": "npm run build --workspace=d-via",
+    "build:backend": "npm run build --workspace=dvia-backend-ia",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "clean": "npm run clean --workspaces",
+    "install:all": "npm install"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}
