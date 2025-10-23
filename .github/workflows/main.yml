@@ -39,6 +39,12 @@ jobs:
         cd design-system-dvia
         npm install
         
+    - name: Configure npm for private packages
+      run: |
+        cd d-via-final
+        echo "@gloireondongo:registry=https://registry.npmjs.org/" >> .npmrc
+        echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" >> .npmrc
+        
     - name: Install dependencies - D-Via Final
       run: |
         cd d-via-final
@@ -131,6 +137,12 @@ jobs:
         cache: 'npm'
         registry-url: 'https://registry.npmjs.org'
         
+    - name: Configure npm for private packages
+      run: |
+        cd d-via-final
+        echo "@gloireondongo:registry=https://registry.npmjs.org/" >> .npmrc
+        echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" >> .npmrc
+        
     - name: Install dependencies
       run: |
         cd d-via-final
@@ -209,6 +221,12 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
         registry-url: 'https://registry.npmjs.org'
+        
+    - name: Configure npm for private packages
+      run: |
+        cd d-via-final
+        echo "@gloireondongo:registry=https://registry.npmjs.org/" >> .npmrc
+        echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" >> .npmrc
         
     - name: Install dependencies
       run: |
