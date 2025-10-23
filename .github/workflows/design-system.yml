@@ -1,0 +1,136 @@
+name: Design System - Publication et Storybook
+
+# Déclenchement du workflow
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'design-system-dvia/src/**'
+      - 'design-system-dvia/package.json'
+      - 'design-system-dvia/tsup.config.ts'
+      - 'design-system-dvia/.storybook/**'
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Type de bump (patch, minor, major)'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+# Variables d'environnement
+env:
+  NODE_VERSION: '22'
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+
+jobs:
+  # Job de publication du design system
+  publish:
+    name: Publication Design System
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Récupération du code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ env.GITHUB_TOKEN }}
+        fetch-depth: 0
+      
+    - name: Configuration Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org/'
+      
+    - name: Configuration Git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+      
+    - name: Installation dépendances
+      run: |
+        cd design-system-dvia
+        npm install
+      
+    - name: Bump de version
+      run: |
+        cd design-system-dvia
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          npm run bump:${{ github.event.inputs.bump_type }}
+        else
+          npm run bump:patch
+        fi
+      env:
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+        CI: true
+      
+    - name: Construction du package
+      run: |
+        cd design-system-dvia
+        npm run build
+      
+    - name: Publication sur npm
+      run: |
+        cd design-system-dvia
+        npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+      
+    - name: Push des changements
+      run: |
+        git add .
+        git commit -m "chore: bump design system version" || true
+        git push origin main --tags
+      env:
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+
+  # Job de déploiement Storybook
+  storybook:
+    name: Déploiement Storybook
+    runs-on: ubuntu-latest
+    needs: publish
+    
+    steps:
+    - name: Récupération du code
+      uses: actions/checkout@v4
+      
+    - name: Configuration Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Installation dépendances
+      run: |
+        cd design-system-dvia
+        npm install
+      
+    - name: Préparation assets
+      run: |
+        cd design-system-dvia
+        # Créer le dossier public
+        mkdir -p public
+        # Copier les assets depuis d-via-final
+        cp -r ../d-via-final/public/* public/ 2>/dev/null || echo "Pas d'assets à copier"
+        # Créer un favicon par défaut si nécessaire
+        if [ ! -f public/favicon.ico ]; then
+          echo "Création favicon par défaut"
+          touch public/favicon.ico
+        fi
+      
+    - name: Construction Storybook
+      run: |
+        cd design-system-dvia
+        npm run build-storybook
+      
+    - name: Déploiement sur GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./design-system-dvia/storybook-static
+        cname: design-system.d-via.com

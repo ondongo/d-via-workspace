@@ -1,0 +1,51 @@
+name: D-Via Final - Déploiement Vercel
+
+# Déclenchement du workflow
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'd-via-final/**'
+      - 'design-system-dvia/**'  # Se déclenche aussi si le design system change
+  workflow_dispatch:
+
+# Variables d'environnement
+env:
+  NODE_VERSION: '22'
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+jobs:
+  # Job de déploiement d-via-final
+  deploy:
+    name: Déploiement D-Via Final
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Récupération du code
+      uses: actions/checkout@v4
+      
+    - name: Configuration Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org/'
+      
+    - name: Installation dépendances
+      run: |
+        cd d-via-final
+        npm install
+      
+    - name: Construction de l'application
+      run: |
+        cd d-via-final
+        npm run build
+      
+    - name: Déploiement sur Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ env.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_D_VIA_FINAL_PROJECT_ID }}
+        working-directory: d-via-final
+        vercel-args: '--prod'
