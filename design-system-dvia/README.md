@@ -111,4 +111,4 @@ La publication est automatique via GitHub Actions lors des push sur main.
 
 ## Licence
 
-MIT
+MIT# Trigger design system deployment
