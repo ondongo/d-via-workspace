@@ -72,14 +72,14 @@ pip install -r requirements.txt
 python rag.py
 ```
 
-## 🔄 Workflow de développement
+## Workflow de développement
 
 1. **Design System** : Développement et test des composants
 2. **Publication** : Bump de version et publication sur GitHub Packages
 3. **Application** : Mise à jour automatique via GitHub Actions
 4. **Déploiement** : Déploiement automatique sur Vercel
 
-## 📦 Scripts disponibles
+## Scripts disponibles
 
 ### Workspace
 ```bash
