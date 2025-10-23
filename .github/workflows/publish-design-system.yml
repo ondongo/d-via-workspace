@@ -4,9 +4,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'design-system-dvia/src/**'
-      - 'design-system-dvia/package.json'
-      - 'design-system-dvia/tsup.config.ts'
+      - 'design-system-dvia/**'
   workflow_dispatch:
 
 jobs:

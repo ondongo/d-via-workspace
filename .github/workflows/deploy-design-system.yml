@@ -1,0 +1,41 @@
+name: Deploy Design System to Vercel
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'design-system-dvia/**'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        cd design-system-dvia
+        npm install
+      
+    - name: Build Storybook
+      run: |
+        cd design-system-dvia
+        npm run build-storybook
+      
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_DESIGN_SYSTEM_PROJECT_ID }}
+        working-directory: design-system-dvia
+        vercel-args: '--prod'
