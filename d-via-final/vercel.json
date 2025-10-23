@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd ../design-system-dvia && npm run build && cd ../d-via-final && npm install && npm run build",
+  "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "installCommand": "cd ../design-system-dvia && npm install",
+  "installCommand": "chmod +x scripts/install-design-system.sh && ./scripts/install-design-system.sh && npm install",
   "env": {
     "NODE_ENV": "production"
   },
