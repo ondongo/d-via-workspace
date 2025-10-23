@@ -14,7 +14,7 @@ Ce guide explique comment déployer le design system et l'application d-via-fina
    - `VERCEL_ORG_ID` : ID de l'organisation Vercel
    - `VERCEL_PROJECT_ID` : ID du projet Vercel
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 design-system-dvia/     # Design system (package npm)
@@ -29,7 +29,7 @@ d-via-final/           # Application Next.js
 └── src/               # Application
 ```
 
-## 🔄 Processus de Déploiement
+## Processus de Déploiement
 
 ### 1. Design System
 
@@ -59,7 +59,7 @@ d-via-final/           # Application Next.js
 ./deploy.sh both
 ```
 
-## ⚙️ Configuration Vercel
+## Configuration Vercel
 
 ### 1. Créer un projet Vercel
 
@@ -101,7 +101,7 @@ on:
     - cron: '0 9 * * *'  # Tous les jours à 9h UTC
 ```
 
-## 📦 Gestion des versions
+## Gestion des versions
 
 ### Design System
 
@@ -114,7 +114,7 @@ on:
 - **Dependency :** `@d-via/design-system: file:../design-system-dvia`
 - **Update :** Automatique via GitHub Actions
 
-## 🛠️ Scripts de déploiement
+## Scripts de déploiement
 
 ### Script principal
 
@@ -169,7 +169,7 @@ npm run build
 npm ls @d-via/design-system
 ```
 
-## 🚨 Résolution de problèmes
+## Résolution de problèmes
 
 ### Erreur de build
 
@@ -189,13 +189,13 @@ npm ls @d-via/design-system
 2. Vérifier les secrets GitHub
 3. Déclencher manuellement le workflow
 
-## 📚 Ressources
+## Ressources
 
 - [GitHub Actions Documentation](https://docs.github.com/en/actions)
 - [Vercel Documentation](https://vercel.com/docs)
 - [npm Publishing Guide](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry)
 
-## 🤝 Contribution
+## Contribution
 
 Pour contribuer au déploiement :
 

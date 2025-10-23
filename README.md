@@ -1,8 +1,8 @@
-# 🏗️ D-Via Workspace
+# D-Via Workspace
 
 Monorepo contenant tous les projets de la plateforme D-Via.
 
-## 📁 Structure du projet
+## Structure du projet
 
 ```
 d-via-workspace/
@@ -12,7 +12,7 @@ d-via-workspace/
 └── README.md                 # Ce fichier
 ```
 
-## 🚀 Projets
+## Projets
 
 ### 1. **d-via-final** - Application principale
 - **Technologie** : Next.js 14, TypeScript, Tailwind CSS
@@ -31,7 +31,7 @@ d-via-workspace/
 - **Description** : API d'analyse de documents et d'intelligence artificielle
 - **Fonctionnalités** : Analyse de devis, génération de contenu IA
 
-## 🛠️ Installation et développement
+## Installation et développement
 
 ### Prérequis
 - Node.js 18+
@@ -102,19 +102,19 @@ npm run build        # Builder pour la production
 npm run start        # Démarrer en mode production
 ```
 
-## 🚀 Déploiement
+## Déploiement
 
 - **Application** : Déploiement automatique sur Vercel via GitHub Actions
 - **Design System** : Publication automatique sur GitHub Packages
 - **Backend IA** : Déploiement sur votre infrastructure préférée
 
-## 📝 Documentation
+## Documentation
 
 - [Guide de déploiement](./DEPLOYMENT.md)
 - [Design System Storybook](https://ondongo.github.io/design-system-dvia)
 - [API Documentation](./dvia-backend-ia/README.md)
 
-## 🤝 Contribution
+## Contribution
 
 1. Fork le repository
 2. Créer une branche feature (`git checkout -b feature/amazing-feature`)
@@ -122,16 +122,8 @@ npm run start        # Démarrer en mode production
 4. Push vers la branche (`git push origin feature/amazing-feature`)
 5. Ouvrir une Pull Request
 
-## 📄 Licence
 
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+##  Équipe
 
-## 👥 Équipe
-
-- **Développement** : Gloire Ondongo
-- **Design** : Équipe D-Via
-- **IA** : Équipe Backend
-
----
-
-**D-Via** - Connecter artisans et clients pour des projets réussis 🛠️
+- **Développement** :Marvin, Gloire Ondongo
+- **Design** :Eva, Matys
