@@ -164,10 +164,14 @@ function autoBump() {
     execSync(`git tag v${newVersion}`, { stdio: 'inherit' });
     log('✅ Commit et tag créés', 'green');
     
-    // Push
-    log('📤 Push vers GitHub...', 'blue');
-    execSync(`git push origin main --tags`, { stdio: 'inherit' });
-    log('✅ Push terminé', 'green');
+    // Push (seulement si pas en mode CI)
+    if (!process.env.CI) {
+      log('📤 Push vers GitHub...', 'blue');
+      execSync(`git push origin main --tags`, { stdio: 'inherit' });
+      log('✅ Push terminé', 'green');
+    } else {
+      log('⚠️ Mode CI détecté - Push géré par le workflow', 'yellow');
+    }
     
     log(`🎉 Bump automatique terminé ! Version ${newVersion}`, 'green');
     

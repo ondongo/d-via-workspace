@@ -6,8 +6,9 @@ on:
     branches: [ main ]
     paths:
       - 'design-system-dvia/src/**'  # Modifications du code source
-      - 'design-system-dvia/package.json'  # Modifications du package.json
       - 'design-system-dvia/tsup.config.ts'  # Modifications de la config
+    paths-ignore:
+      - 'design-system-dvia/package.json'  # Ignorer les modifications de version
   workflow_dispatch:  # Déclenchement manuel
     inputs:
       bump_type:
@@ -65,6 +66,15 @@ jobs:
         else
           npm run bump:patch
         fi
+      env:
+        GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
+        CI: true  # Désactive le push automatique dans le script
+      
+    - name: Push des changements
+      run: |
+        git add .
+        git commit -m "chore: bump design system version" || true
+        git push origin main --tags
       env:
         GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
       
