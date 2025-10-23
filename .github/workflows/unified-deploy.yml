@@ -14,7 +14,7 @@ on:
 
 # Variables d'environnement globales
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
