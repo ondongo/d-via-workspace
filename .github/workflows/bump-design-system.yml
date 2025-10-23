@@ -1,0 +1,148 @@
+name: Bump Design System Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: 'Type de version'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      mode:
+        description: 'Mode de mise à jour'
+        required: true
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - direct
+          - pr
+
+env:
+  NODE_VERSION: '18'
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+jobs:
+  bump-version:
+    name: Bump Version
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        cd design-system-dvia
+        npm ci
+        
+    - name: Bump version
+      run: |
+        cd design-system-dvia
+        npm run bump:${{ github.event.inputs.version_type }}
+      env:
+        NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+        
+    - name: Push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        git commit -m "chore: bump design system to ${{ github.event.inputs.version_type }} version"
+        git push origin main
+
+  update-d-via-final:
+    name: Update D-Via Final
+    runs-on: ubuntu-latest
+    needs: bump-version
+    if: github.event.inputs.mode == 'direct'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Update design system in d-via-final
+      run: |
+        cd d-via-final
+        npm update @gloireondongo/d-via-design-system
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add d-via-final/package.json d-via-final/package-lock.json
+        git diff --staged --quiet || git commit -m "chore: update design system to latest version"
+        git push origin main
+
+  create-pr:
+    name: Create Pull Request
+    runs-on: ubuntu-latest
+    needs: bump-version
+    if: github.event.inputs.mode == 'pr'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Create branch
+      run: |
+        git checkout -b update-design-system-$(date +%Y%m%d-%H%M%S)
+        
+    - name: Update design system in d-via-final
+      run: |
+        cd d-via-final
+        npm update @gloireondongo/d-via-design-system
+        
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add d-via-final/package.json d-via-final/package-lock.json
+        git diff --staged --quiet || git commit -m "chore: update design system to latest version"
+        
+    - name: Push branch
+      run: |
+        git push origin HEAD
+        
+    - name: Create Pull Request
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { data: pr } = await github.rest.pulls.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: 'chore: update design system to latest version',
+            head: context.ref.replace('refs/heads/', ''),
+            base: 'main',
+            body: 'Mise à jour automatique du design system vers la dernière version.'
+          });
+          console.log(`Pull request created: ${pr.html_url}`);

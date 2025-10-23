@@ -1,31 +1,62 @@
 {
   "name": "d-via-workspace",
   "version": "1.0.0",
-  "description": "Workspace D-Via avec design system, frontend et backend IA",
+  "description": "Monorepo D-Via - Design System, Frontend et Backend IA",
   "private": true,
   "workspaces": [
-    "d-via",
     "design-system-dvia",
+    "d-via-final",
     "dvia-backend-ia"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=d-via",
-    "dev:design-system": "npm run storybook --workspace=design-system-dvia",
-    "dev:backend": "npm run dev --workspace=dvia-backend-ia",
-    "build": "npm run build --workspace=design-system-dvia && npm run build --workspace=d-via",
-    "build:design-system": "npm run build --workspace=design-system-dvia",
-    "build:frontend": "npm run build --workspace=d-via",
-    "build:backend": "npm run build --workspace=dvia-backend-ia",
-    "test": "npm run test --workspaces",
-    "lint": "npm run lint --workspaces",
-    "clean": "npm run clean --workspaces",
-    "install:all": "npm install"
+    "install:all": "npm install && npm run install:design-system && npm run install:frontend && npm run install:backend",
+    "install:design-system": "cd design-system-dvia && npm install",
+    "install:frontend": "cd d-via-final && npm install",
+    "install:backend": "cd dvia-backend-ia && npm install",
+    "build:design-system": "cd design-system-dvia && npm run build",
+    "build:frontend": "cd d-via-final && npm run build",
+    "build:all": "npm run build:design-system && npm run build:frontend",
+    "dev:design-system": "cd design-system-dvia && npm run dev",
+    "dev:frontend": "cd d-via-final && npm run dev",
+    "dev:backend": "cd dvia-backend-ia && python rag.py",
+    "test": "npm run test:design-system && npm run test:frontend",
+    "test:design-system": "cd design-system-dvia && npm run test",
+    "test:frontend": "cd d-via-final && npm run test",
+    "lint": "npm run lint:design-system && npm run lint:frontend",
+    "lint:design-system": "cd design-system-dvia && npm run lint",
+    "lint:frontend": "cd d-via-final && npm run lint",
+    "type-check": "npm run type-check:design-system && npm run type-check:frontend",
+    "type-check:design-system": "cd design-system-dvia && npm run type-check",
+    "type-check:frontend": "cd d-via-final && npx tsc --noEmit",
+    "clean": "npm run clean:design-system && npm run clean:frontend",
+    "clean:design-system": "cd design-system-dvia && npm run clean",
+    "clean:frontend": "cd d-via-final && rm -rf .next node_modules package-lock.json",
+    "publish:design-system": "cd design-system-dvia && npm publish",
+    "bump:design-system": "cd design-system-dvia && npm run bump",
+    "bump:design-system:patch": "cd design-system-dvia && npm run bump:patch",
+    "bump:design-system:minor": "cd design-system-dvia && npm run bump:minor",
+    "bump:design-system:major": "cd design-system-dvia && npm run bump:major"
   },
   "devDependencies": {
+    "@types/node": "^20.0.0",
     "typescript": "^5.0.0"
   },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ondongo/d-via-workspace.git"
+  },
+  "keywords": [
+    "d-via",
+    "design-system",
+    "nextjs",
+    "react",
+    "tailwindcss",
+    "monorepo"
+  ],
+  "author": "Gloire Ondongo",
+  "license": "MIT"
 }

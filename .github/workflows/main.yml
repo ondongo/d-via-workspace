@@ -1,0 +1,279 @@
+name: D-Via Workspace CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'design-system-dvia/**'
+      - 'd-via-final/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+jobs:
+  # Job de validation et tests
+  validate:
+    name: Validation et Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies - Design System
+      run: |
+        cd design-system-dvia
+        npm ci
+        
+    - name: Install dependencies - D-Via Final
+      run: |
+        cd d-via-final
+        npm ci
+        
+    - name: Lint Design System
+      run: |
+        cd design-system-dvia
+        npm run lint
+        
+    - name: Lint D-Via Final
+      run: |
+        cd d-via-final
+        npm run lint
+        
+    - name: Type check Design System
+      run: |
+        cd design-system-dvia
+        npm run type-check
+        
+    - name: Type check D-Via Final
+      run: |
+        cd d-via-final
+        npx tsc --noEmit
+        
+    - name: Test Design System
+      run: |
+        cd design-system-dvia
+        npm run test
+      continue-on-error: true
+
+  # Job de build et publication du design system
+  build-and-publish-design-system:
+    name: Build et Publication Design System
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+        
+    - name: Install dependencies
+      run: |
+        cd design-system-dvia
+        npm ci
+        
+    - name: Build design system
+      run: |
+        cd design-system-dvia
+        npm run build
+        
+    - name: Publish to npm
+      run: |
+        cd design-system-dvia
+        npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+        
+    - name: Upload design system artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: design-system-dist
+        path: design-system-dvia/dist/
+        retention-days: 7
+
+  # Job de build de d-via-final
+  build-d-via-final:
+    name: Build D-Via Final
+    runs-on: ubuntu-latest
+    needs: [validate, build-and-publish-design-system]
+    if: always() && (needs.validate.result == 'success')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        cd d-via-final
+        npm ci
+        
+    - name: Download design system artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: design-system-dist
+        path: design-system-dvia/dist/
+      if: needs.build-and-publish-design-system.result == 'success'
+        
+    - name: Build d-via-final
+      run: |
+        cd d-via-final
+        npm run build
+        
+    - name: Upload d-via-final artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: d-via-final-dist
+        path: d-via-final/.next/
+        retention-days: 7
+
+  # Job de déploiement du design system (Storybook)
+  deploy-design-system:
+    name: Deploy Design System (Storybook)
+    runs-on: ubuntu-latest
+    needs: build-and-publish-design-system
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        cd design-system-dvia
+        npm ci
+        
+    - name: Build Storybook
+      run: |
+        cd design-system-dvia
+        npm run build-storybook
+        
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ env.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_DESIGN_SYSTEM_PROJECT_ID }}
+        working-directory: ./design-system-dvia
+        vercel-args: '--prod'
+
+  # Job de déploiement de d-via-final
+  deploy-d-via-final:
+    name: Deploy D-Via Final
+    runs-on: ubuntu-latest
+    needs: [build-d-via-final, deploy-design-system]
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: |
+        cd d-via-final
+        npm ci
+        
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: d-via-final-dist
+        path: d-via-final/.next/
+        
+    - name: Deploy to Vercel
+      uses: amondnet/vercel-action@v25
+      with:
+        vercel-token: ${{ env.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_D_VIA_FINAL_PROJECT_ID }}
+        working-directory: ./d-via-final
+        vercel-args: '--prod'
+
+  # Job de mise à jour automatique de d-via-final
+  update-d-via-final:
+    name: Mise à jour D-Via Final
+    runs-on: ubuntu-latest
+    needs: build-and-publish-design-system
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Update design system in d-via-final
+      run: |
+        cd d-via-final
+        npm update @gloireondongo/d-via-design-system
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add d-via-final/package.json d-via-final/package-lock.json
+        git diff --staged --quiet || git commit -m "chore: update design system to latest version"
+        git push
+
+  # Job de notification
+  notify:
+    name: Notification
+    runs-on: ubuntu-latest
+    needs: [deploy-design-system, deploy-d-via-final, update-d-via-final]
+    if: always() && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Notify Success
+      if: needs.deploy-design-system.result == 'success' && needs.deploy-d-via-final.result == 'success'
+      run: |
+        echo "✅ Déploiement réussi :"
+        echo "- Design System: https://d-via-workspace-design-system-dvia.vercel.app"
+        echo "- D-Via Final: https://d-via-final.vercel.app"
+        echo "- Package npm: https://www.npmjs.com/package/@gloireondongo/d-via-design-system"
+        
+    - name: Notify Failure
+      if: needs.deploy-design-system.result == 'failure' || needs.deploy-d-via-final.result == 'failure'
+      run: |
+        echo "❌ Échec du déploiement"
+        echo "Vérifiez les logs pour plus de détails"
