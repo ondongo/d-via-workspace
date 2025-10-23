@@ -1,4 +1,5 @@
 
+import React from "react";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
 import Script from "next/script";
