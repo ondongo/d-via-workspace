@@ -7,12 +7,21 @@ export const config = {
   },
 };
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export async function POST(request: any) {
   try {
+    // Vérifier que la clé API est disponible
+    if (!process.env.OPENAI_API_KEY) {
+      return NextResponse.json({
+        status: 500,
+        error: "Configuration OpenAI manquante.",
+      });
+    }
+
+    // Initialiser OpenAI seulement quand nécessaire
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
     // Récupérer le texte envoyé dans la requête
     const { text } = await request.json();
 
