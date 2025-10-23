@@ -21,6 +21,12 @@ const config: StorybookConfig = {
   "framework": {
     "name": getAbsolutePath('@storybook/react-vite'),
     "options": {}
+  },
+  "staticDirs": ["../public"],
+  "viteFinal": async (config) => {
+    // Configuration pour les assets
+    config.publicDir = '../public';
+    return config;
   }
 };
 export default config;
