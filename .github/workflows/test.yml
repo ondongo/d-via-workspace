@@ -1,0 +1,55 @@
+name: Test Build
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '20'
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+jobs:
+  test-build:
+    name: Test Build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+        
+    - name: Install design system dependencies
+      run: |
+        cd design-system-dvia
+        npm install
+        
+    - name: Build design system
+      run: |
+        cd design-system-dvia
+        npm run build
+        
+    - name: Install d-via-final dependencies
+      run: |
+        cd d-via-final
+        npm install
+        
+    - name: Test d-via-final build
+      run: |
+        cd d-via-final
+        npm run build
+        
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          design-system-dvia/dist/
+          d-via-final/.next/
+        retention-days: 7

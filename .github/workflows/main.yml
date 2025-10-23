@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '20'
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
@@ -31,16 +31,18 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Install dependencies - Design System
       run: |
         cd design-system-dvia
-        npm ci
+        npm install
         
     - name: Install dependencies - D-Via Final
       run: |
         cd d-via-final
-        npm ci
+        npm install
         
     - name: Lint Design System
       run: |
@@ -85,11 +87,12 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
         registry-url: 'https://registry.npmjs.org'
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Install dependencies
       run: |
         cd design-system-dvia
-        npm ci
+        npm install
         
     - name: Build design system
       run: |
@@ -126,11 +129,12 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Install dependencies
       run: |
         cd d-via-final
-        npm ci
+        npm install
         
     - name: Download design system artifacts
       uses: actions/download-artifact@v4
@@ -167,11 +171,12 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Install dependencies
       run: |
         cd design-system-dvia
-        npm ci
+        npm install
         
     - name: Build Storybook
       run: |
@@ -203,11 +208,12 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Install dependencies
       run: |
         cd d-via-final
-        npm ci
+        npm install
         
     - name: Download artifacts
       uses: actions/download-artifact@v4
@@ -242,6 +248,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Update design system in d-via-final
       run: |

@@ -23,7 +23,7 @@ on:
           - pr
 
 env:
-  NODE_VERSION: '18'
+  NODE_VERSION: '20'
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
 jobs:
@@ -42,11 +42,12 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Install dependencies
       run: |
         cd design-system-dvia
-        npm ci
+        npm install
         
     - name: Bump version
       run: |
@@ -80,6 +81,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Update design system in d-via-final
       run: |
@@ -112,6 +114,7 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Create branch
       run: |
