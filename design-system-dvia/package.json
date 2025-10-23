@@ -1,5 +1,5 @@
 {
-  "name": "@d-via/design-system",
+  "name": "@gloireondongo/d-via-design-system",
   "version": "1.1.0",
   "type": "module",
   "description": "Design system D-Via avec composants React et Tailwind CSS",

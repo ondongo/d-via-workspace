@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build-storybook",
+  "outputDirectory": "storybook-static",
+  "installCommand": "npm install",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
