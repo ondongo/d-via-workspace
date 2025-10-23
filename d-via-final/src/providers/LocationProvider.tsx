@@ -1,4 +1,5 @@
-import {
+"use client";
+import React, {
   ReactNode,
   createContext,
   useContext,
@@ -22,7 +23,11 @@ export const useLocationContext = () => {
   return useContext(LocationContext);
 };
 
-export const LocationProvider = ({ children }: { children: ReactNode }) => {
+interface LocationProviderProps {
+  children: React.ReactNode;
+}
+
+export const LocationProvider: React.FC<LocationProviderProps> = ({ children }) => {
   const [locationsContext, setLocationsContext] = useState<any[]>([]);
   const [currentLocation, setCurrentLocation] = useState<any>();
   const [coords, setCoords] = useState<{ latitude: number; longitude: number } | null>(null);

@@ -20,14 +20,16 @@ const GlobalStateContext = createContext<GlobalStateType | undefined>(
   undefined
 );
 
-export const GlobalStateProvider = ({
+interface GlobalStateProviderProps {
+  children: React.ReactNode;
+  defaultCity?: string;
+  defaultCenter?: [number, number];
+}
+
+export const GlobalStateProvider: React.FC<GlobalStateProviderProps> = ({
   children,
   defaultCity = "Paris",
   defaultCenter = [48.856614, 2.3522219],
-}: {
-  children: ReactNode;
-  defaultCity?: string;
-  defaultCenter?: [number, number];
 }) => {
   const [selectedAddress, setSelectedAddress] = useState<string>(defaultCity);
   const [coordinates, setCoordinates] =
