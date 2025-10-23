@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.8.0",
-    "@d-via/design-system": "file:../design-system-dvia",
+    "@d-via/design-system": "file:../design-system-dvia/d-via-design-system-1.1.0.tgz",
     "@google-cloud/documentai": "^8.12.0",
     "@prisma/client": "^6.16.2",
     "@prisma/extension-accelerate": "^2.0.2",
