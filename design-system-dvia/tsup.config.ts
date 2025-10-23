@@ -9,5 +9,8 @@ export default defineConfig({
   clean: true,
   external: ['react', 'react-dom'],
   treeshake: true,
-  minify: true,
+  minify: false, // Désactiver la minification pour préserver "use client"
+  banner: {
+    js: '"use client";',
+  },
 });

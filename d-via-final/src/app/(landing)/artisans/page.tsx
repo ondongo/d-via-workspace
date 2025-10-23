@@ -1,3 +1,4 @@
+"use client";
 import { CardGridScroll } from "@d-via/design-system";
 import { LeftSection } from "@/components/molecules/landing-artisan/LeftSection";
 import { StepsSection } from "@/components/molecules/StepsSection";

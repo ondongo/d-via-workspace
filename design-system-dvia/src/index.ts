@@ -1,3 +1,4 @@
+"use client";
 // Export all components
 export { Button } from './components/atoms/Button';
 export { Input } from './components/atoms/Input';
