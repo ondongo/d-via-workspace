@@ -83,7 +83,7 @@ Le fichier `vercel.json` configure :
 - Runtime : Node.js 18.x
 - Cron jobs pour la santé de l'API
 
-## 🔄 Mise à jour automatique du Design System
+## Mise à jour automatique du Design System
 
 ### Workflow de mise à jour
 
@@ -144,7 +144,7 @@ npm update @d-via/design-system
 npm run build
 ```
 
-## 🔍 Monitoring et Debug
+## Monitoring et Debug
 
 ### Logs GitHub Actions
 
