@@ -1,7 +1,7 @@
 
 import React from "react";
 import "./globals.css";
-import { Providers } from "@/providers/providers";
+import { ClientProviders } from "@/providers/ClientProviders";
 import Script from "next/script";
 export const metadata = {
   title: "Analyser votre devis | Dvia",
@@ -49,9 +49,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
     
-        <Providers>
+        <ClientProviders>
           <div className="overflow-hidden">{children}</div>
-        </Providers>
+        </ClientProviders>
         <Script
           id="crisp-chat"
           strategy="afterInteractive"
