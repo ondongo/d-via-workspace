@@ -1,0 +1,102 @@
+name: Update Design System
+
+on:
+  schedule:
+    # Vérifie les mises à jour tous les jours à 9h UTC
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Permet de déclencher manuellement
+    inputs:
+      mode:
+        description: 'Mode de mise à jour'
+        required: true
+        default: 'auto'
+        type: choice
+        options:
+          - auto
+          - direct
+          - pr
+
+jobs:
+  update-design-system:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Check for design system updates
+      id: check-updates
+      run: |
+        cd ../design-system-dvia
+        npm ci
+        npm run build
+        
+        # Vérifier s'il y a des changements
+        if git diff --quiet HEAD~1 HEAD -- dist/; then
+          echo "no-changes=true" >> $GITHUB_OUTPUT
+        else
+          echo "no-changes=false" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Determine update mode
+      id: mode
+      run: |
+        if [ "${{ github.event.inputs.mode }}" = "direct" ]; then
+          echo "mode=direct" >> $GITHUB_OUTPUT
+        elif [ "${{ github.event.inputs.mode }}" = "pr" ]; then
+          echo "mode=pr" >> $GITHUB_OUTPUT
+        else
+          # Mode auto : PR si c'est un cron, direct si c'est un push
+          if [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "mode=pr" >> $GITHUB_OUTPUT
+          else
+            echo "mode=direct" >> $GITHUB_OUTPUT
+          fi
+        fi
+        
+    - name: Update package.json
+      if: steps.check-updates.outputs.no-changes == 'false'
+      run: |
+        # Mettre à jour la version du design system
+        npm update @d-via/design-system
+        
+    - name: Test build
+      if: steps.check-updates.outputs.no-changes == 'false'
+      run: |
+        npm run build
+        
+    - name: Direct commit (main branch)
+      if: steps.check-updates.outputs.no-changes == 'false' && steps.mode.outputs.mode == 'direct'
+      run: |
+        git add .
+        git commit -m "chore: update design system to latest version"
+        git push origin main
+        
+    - name: Create Pull Request
+      if: steps.check-updates.outputs.no-changes == 'false' && steps.mode.outputs.mode == 'pr'
+      uses: peter-evans/create-pull-request@v5
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: 'chore: update design system to latest version'
+        title: 'Update Design System'
+        body: |
+          This PR updates the design system to the latest version.
+          
+          Changes:
+          - Updated @d-via/design-system dependency
+          - Rebuilt application with new design system
+          
+          Please review and merge if everything looks good.
+        branch: update-design-system
+        delete-branch: true

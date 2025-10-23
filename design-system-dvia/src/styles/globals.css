@@ -1,0 +1,294 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+
+:root {
+  /* Couleurs de base */
+  --background: #feefed;
+  --font-body: "Montserrat", sans-serif;
+}
+
+@theme {
+  /* Polices de caractères */
+  --font-title: "Montserrat", sans-serif;
+  --font-body: "Montserrat", sans-serif;
+  --font-roboto: "Montserrat", sans-serif;
+
+  /* Tailles de police */
+  --text-display-large: 3.5625rem; /* 57px */
+  --text-display-medium: 2.8125rem; /* 45px */
+  --text-display-small: 2.25rem; /* 36px */
+  --text-headline-large: 2rem; /* 32px */
+  --text-headline-medium: 1.75rem; /* 28px */
+  --text-headline-small: 1.5rem; /* 24px */
+  --text-title-large: 1.25rem; /* 20px */
+  --text-title-small: 0.875rem; /* 14px */
+  --text-title-medium-size: 18px;
+  --text-label-large: 0.875rem; /* 14px */
+  --text-label-medium: 0.75rem; /* 12px */
+  --text-label-small: 0.6875rem; /* 11px */
+  --text-body-large: 1rem; /* 16px */
+  --text-body-medium: 0.875rem; /* 14px */
+  --text-body-small: 0.75rem; /* 12px */
+
+  /* Interlignes */
+  --leading-display-large: 4rem; /* 64px */
+  --leading-display-medium: 3.25rem; /* 52px */
+  --leading-display-small: 2.75rem; /* 44px */
+  --leading-headline-large: 2.5rem; /* 40px */
+  --leading-headline-medium: 2.25rem; /* 36px */
+  --leading-headline-small: 2rem; /* 32px */
+  --leading-title-small: 1.25rem; /* 20px */
+  --leading-label-large: 1.25rem; /* 20px */
+  --leading-label-medium: 1rem; /* 16px */
+  --leading-label-small: 1rem; /* 16px */
+  --leading-body-large: 1.5rem; /* 24px */
+  --leading-body-medium: 1.25rem; /* 20px */
+  --leading-body-small: 1rem; /* 16px */
+
+  /* Espacement des lettres */
+  --tracking-display-large: -0.25px;
+  --tracking-display-medium: 0;
+  --tracking-display-small: 0;
+  --tracking-headline-large: 0;
+  --tracking-headline-medium: 0;
+  --tracking-headline-small: 0;
+  --tracking-title-small: 0.1px;
+  --tracking-label-large: 0.1px;
+  --tracking-label-medium: 0.5px;
+  --tracking-label-small: 0.5px;
+  --tracking-body-large: 0.5px;
+  --tracking-body-medium: 0.25px;
+  --tracking-body-small: 0.4px;
+
+  /* Graisse de la police */
+  --font-weight-roboto-medium: 500;
+  --font-weight-roboto-regular: 400;
+
+  /* Couleurs primaires */
+  --color-dviaprimary-0: #f7f8ff;
+  --color-dviaprimary-4: #160804;
+  --color-dviaprimary-6: #220b05;
+  --color-dviaprimary-10: #391107;
+  --color-dviaprimary-12: #44170b;
+  --color-dviaprimary-17: #612111;
+  --color-dviaprimary-20: #73230f;
+  --color-dviaprimary-22: #7d2b17;
+  --color-dviaprimary-24: #892f19;
+  --color-dviaprimary-30: #ac3416;
+  --color-dviaprimary-40: #e5451d;
+  --color-dviaprimary-50: #e96443;
+  --color-dviaprimary-60: #ee8368;
+  --color-dviaprimary-70: #f2a28e;
+  --color-dviaprimary-80: #f6c1b4;
+  --color-dviaprimary-87: #f9d8cf;
+  --color-dviaprimary-90: #fbe0d9;
+  --color-dviaprimary-92: #fbe7e1;
+  --color-dviaprimary-94: #fcede9;
+  --color-dviaprimary-95: #fdf0ed;
+  --color-dviaprimary-96: #fdf3f0;
+  --color-dviaprimary-98: #fef9f8;
+  --color-dviaprimary-99: #fffcfb;
+  --color-dviaprimary-100: #ffffff;
+
+  /* Couleurs secondaires */
+  --color-dviasecondary-0: #000000;
+  --color-dviasecondary-4: #180d05;
+  --color-dviasecondary-6: #251308;
+  --color-dviasecondary-10: #3e1f0a;
+  --color-dviasecondary-12: #4a2710;
+  --color-dviasecondary-17: #693718;
+  --color-dviasecondary-20: #7d3e14;
+  --color-dviasecondary-22: #88471f;
+  --color-dviasecondary-24: #944e22;
+  --color-dviasecondary-30: #bb5d1d;
+  --color-dviasecondary-40: #f97c27;
+  --color-dviasecondary-50: #fa924b;
+  --color-dviasecondary-60: #fba86f;
+  --color-dviasecondary-70: #fcbe93;
+  --color-dviasecondary-80: #fdd3b7;
+  --color-dviasecondary-87: #fde3d2;
+  --color-dviasecondary-90: #fee9db;
+  --color-dviasecondary-92: #fdeee3;
+  --color-dviasecondary-94: #fef2ea;
+  --color-dviasecondary-95: #fef5ee;
+  --color-dviasecondary-96: #fef7f1;
+  --color-dviasecondary-98: #fffbf8;
+  --color-dviasecondary-99: #fffdfc;
+  --color-dviasecondary-100: #ffffff;
+
+  /* Couleurs tertiaires */
+  --color-dviatertiary-0: #000000;
+  --color-dviatertiary-4: #08010e;
+  --color-dviatertiary-6: #0d0114;
+  --color-dviatertiary-10: #140223;
+  --color-dviatertiary-12: #190229;
+  --color-dviatertiary-17: #24033b;
+  --color-dviatertiary-20: #280447;
+  --color-dviatertiary-22: #2e034c;
+  --color-dviatertiary-24: #320353;
+  --color-dviatertiary-30: #3c066a;
+  --color-dviatertiary-40: #50088d;
+  --color-dviatertiary-50: #6d31a0;
+  --color-dviatertiary-60: #8a5ab3;
+  --color-dviatertiary-70: #a884c6;
+  --color-dviatertiary-80: #c5add9;
+  --color-dviatertiary-87: #dacae5;
+  --color-dviatertiary-90: #e2d6ec;
+  --color-dviatertiary-92: #e9deef;
+  --color-dviatertiary-94: #eee6f3;
+  --color-dviatertiary-95: #f1ebf5;
+  --color-dviatertiary-96: #f4eff7;
+  --color-dviatertiary-98: #f9f7fb;
+  --color-dviatertiary-99: #fcfbfd;
+  --color-dviatertiary-100: #ffffff;
+
+  /* Couleurs d'erreur */
+  --color-dviaerror-0: #000000;
+  --color-dviaerror-4: #180101;
+  --color-dviaerror-6: #230201;
+  --color-dviaerror-10: #3c0000;
+  --color-dviaerror-12: #470503;
+  --color-dviaerror-17: #650a06;
+  --color-dviaerror-20: #780000;
+  --color-dviaerror-22: #830f09;
+  --color-dviaerror-24: #8f120b;
+  --color-dviaerror-30: #b40000;
+  --color-dviaerror-40: #f00000;
+  --color-dviaerror-50: #f32b2b;
+  --color-dviaerror-60: #f55555;
+  --color-dviaerror-70: #f88080;
+  --color-dviaerror-80: #faaaaa;
+  --color-dviaerror-87: #fbc9c9;
+  --color-dviaerror-90: #fdd5d5;
+  --color-dviaerror-92: #fddede;
+  --color-dviaerror-94: #fde6e6;
+  --color-dviaerror-95: #feebeb;
+  --color-dviaerror-96: #feefef;
+  --color-dviaerror-98: #fef7f7;
+  --color-dviaerror-99: #fffbfb;
+  --color-dviaerror-100: #ffffff;
+
+  /* Couleurs neutres */
+  --color-dvianeutral-0: #000000;
+  --color-dvianeutral-4: #19100f;
+  --color-dvianeutral-6: #261917;
+  --color-dvianeutral-10: #3f2825;
+  --color-dvianeutral-12: #4b312e;
+  --color-dvianeutral-17: #6a4641;
+  --color-dvianeutral-20: #7e514b;
+  --color-dvianeutral-22: #895a54;
+  --color-dvianeutral-24: #96625b;
+  --color-dvianeutral-30: #bc7970;
+  --color-dvianeutral-40: #fba195;
+  --color-dvianeutral-50: #fcb1a7;
+  --color-dvianeutral-60: #fcc0b8;
+  --color-dvianeutral-70: #fdd0ca;
+  --color-dvianeutral-80: #fee0dc;
+  --color-dvianeutral-87: #feebe8;
+  --color-dvianeutral-90: #feefed;
+  --color-dvianeutral-92: #fef2f1;
+  --color-dvianeutral-94: #fef5f4;
+  --color-dvianeutral-95: #fff7f6;
+  --color-dvianeutral-96: #fff9f8;
+  --color-dvianeutral-98: #fffcfb;
+  --color-dvianeutral-99: #fffdfd;
+  --color-dvianeutral-100: #ffffff;
+
+  /* Couleurs neutres variantes */
+  --color-dvianeutralvariant-0: #000000;
+  --color-dvianeutralvariant-4: #030509;
+  --color-dvianeutralvariant-6: #04080e;
+  --color-dvianeutralvariant-10: #060d18;
+  --color-dvianeutralvariant-12: #080f1c;
+  --color-dvianeutralvariant-17: #0b1528;
+  --color-dvianeutralvariant-20: #0b1a30;
+  --color-dvianeutralvariant-22: #0f1b34;
+  --color-dvianeutralvariant-24: #101e38;
+  --color-dvianeutralvariant-30: #112648;
+  --color-dvianeutralvariant-40: #163360;
+  --color-dvianeutralvariant-50: #3d557b;
+  --color-dvianeutralvariant-60: #647795;
+  --color-dvianeutralvariant-70: #8b99b0;
+  --color-dvianeutralvariant-80: #b1bbca;
+  --color-dvianeutralvariant-87: #cdd3dc;
+  --color-dvianeutralvariant-90: #d8dde5;
+  --color-dvianeutralvariant-92: #e0e4e9;
+  --color-dvianeutralvariant-94: #e8ebef;
+  --color-dvianeutralvariant-95: #eceef2;
+  --color-dvianeutralvariant-96: #eff1f4;
+  --color-dvianeutralvariant-98: #f7f8fa;
+  --color-dvianeutralvariant-99: #fbfcfc;
+  --color-dvianeutralvariant-100: #ffffff;
+
+  /* Raduis */
+  --radius-12px: 12px;
+  --radius-8px: 8px;
+  --radius-28px : 28px;
+}
+body {
+  background-color: var(--background);
+  font-family:var(--font-body)!important;
+}
+
+/* Appliquer Roboto à tous les titres */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span {
+  font-family: var(--font-body) !important;
+}
+
+@keyframes marqueeGrid {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marqueeGrid {
+  animation: marqueeGrid 20s linear infinite;
+}
+
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-20%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+.animate-reverse {
+  animation-direction: reverse;
+}
+
+.animate-25s {
+  animation: animate 30s linear infinite;
+}
+
+.custom-toast .Toastify__toast {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; 
+  z-index: 999999;
+}
+
+
+/* Cacher le widget Crisp sur écran < md (768px) */
+@media (max-width: 767px) {
+  #crisp-chatbox, /* si id */
+  .crisp-client { /* si classe */
+    display: none !important;
+  }
+}
