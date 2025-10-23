@@ -177,3 +177,7 @@ MIT
 ## Auteur
 
 Gloire Ondongo
+
+## Dernière mise à jour
+
+Configuration Vercel optimisée pour déploiement automatique
