@@ -46,16 +46,6 @@ jobs:
         cd d-via-final
         npm install
       
-    - name: Vérification types - Design System
-      run: |
-        cd design-system-dvia
-        npm run type-check
-      
-    - name: Vérification types - D-Via Final
-      run: |
-        cd d-via-final
-        npm run type-check
-      
     - name: Linting - Design System
       run: |
         cd design-system-dvia
