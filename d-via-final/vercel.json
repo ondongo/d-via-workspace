@@ -4,8 +4,7 @@
   "outputDirectory": ".next",
   "installCommand": "npm install",
   "env": {
-    "NODE_ENV": "production",
-    "NPM_TOKEN": "@npm_token"
+    "NODE_ENV": "production"
   },
   "crons": [
     {
